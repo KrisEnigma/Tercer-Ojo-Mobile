@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:tercer_ojo_mobile/level1.dart';
 
 void main() {
@@ -129,19 +130,9 @@ class LevelWidgetState extends State<LevelWidget> {
                 padding: const EdgeInsets.all(10.0),
                 child: Stack(
                   children: [
-                    FutureBuilder(
-                      future:
-                          precacheImage(NetworkImage(widget.imageUrl), context),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          return Image.network(widget.imageUrl);
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
+                    FadeInImage.assetNetwork(
+                      placeholder: circularProgressIndicatorSmall,
+                      image: widget.imageUrl,
                     ),
                     const SizedBox(height: 16),
                     if (widget.levelType == 'click')
@@ -170,7 +161,11 @@ class LevelWidgetState extends State<LevelWidget> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text(widget.text),
+                child: AnimatedOpacity(
+                  duration: Duration(milliseconds: 500),
+                  opacity: 1,
+                  child: Text(widget.text),
+                ),
               ),
               if (widget.levelType == "input")
                 Padding(
