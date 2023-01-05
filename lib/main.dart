@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tercer_ojo_mobile/nivel1.dart';
+import 'package:tercer_ojo_mobile/level1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,24 +57,6 @@ class MainMenu extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class Conditional extends StatelessWidget {
-  final bool condition;
-  final Widget Function() ifTrue;
-  final Widget Function() ifFalse;
-
-  const Conditional({
-    super.key,
-    required this.condition,
-    required this.ifTrue,
-    required this.ifFalse,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return condition ? ifTrue() : ifFalse();
   }
 }
 
@@ -147,8 +129,22 @@ class LevelWidgetState extends State<LevelWidget> {
                 padding: const EdgeInsets.all(10.0),
                 child: Stack(
                   children: [
-                    Image.network(widget.imageUrl),
-                    if (widget.levelType == "click")
+                    FutureBuilder(
+                      future:
+                          precacheImage(NetworkImage(widget.imageUrl), context),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.done) {
+                          return Image.network(widget.imageUrl);
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    if (widget.levelType == 'click')
                       Positioned(
                         right: widget.squareRight,
                         bottom: widget.squareBottom,

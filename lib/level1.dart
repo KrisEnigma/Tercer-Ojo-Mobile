@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tercer_ojo_mobile/main.dart';
-import 'package:tercer_ojo_mobile/nivel2.dart';
+import 'package:tercer_ojo_mobile/level2.dart';
 
 class Nivel1 extends StatelessWidget {
   const Nivel1({super.key});

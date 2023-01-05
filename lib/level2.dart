@@ -11,7 +11,7 @@ class Nivel2 extends StatelessWidget {
       imageUrl: "https://www.tercerojo.net/asdf/iluminame.jpg",
       text: "Haz lo que mi nombre te dice.",
       nextLevel: MainMenu(),
-      correctAnswer: "iluminame",
+      correctAnswer: "teveo",
     );
   }
 }
