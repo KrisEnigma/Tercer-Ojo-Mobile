@@ -1,16 +1,11 @@
-# tercer_ojo_mobile
+# Tercer Ojo Mobile
 
-A new Flutter project.
+## ¿Qué es Tercer Ojo Mobile?
 
-## Getting Started
+Tercer Ojo Mobile es una aplicación de ingenio y puzzles para dispositivos móviles basada en la exitosa versión original de Tercer Ojo, que tiene más de una década de historia. Con esta nueva versión renovada, podrás disfrutar de horas de diversión resolviendo acertijos y descubriendo pistas en cada uno de sus niveles.
 
-This project is a starting point for a Flutter application.
+## ¿Cómo jugar?
 
-A few resources to get you started if this is your first Flutter project:
+El modo de avanzar por cada nivel va variando, pero generalmente debes encontrar una palabra clave a través de las pistas que se te dan, además de en la imagen o el texto del nivel. Usa tu ingenio y habilidad para interpretar estas pistas y avanzar al siguiente nivel.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Este proyecto fue desarrollado por KrisEnigma utilizando Flutter y Dart.
