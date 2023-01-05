@@ -115,6 +115,27 @@ class LevelWidgetState extends State<LevelWidget> {
     super.dispose();
   }
 
+  void _displaySnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Colors.green,
+      action: SnackBarAction(
+        label: 'OK',
+        onPressed: () {
+          // Dismiss the SnackBar
+        },
+        disabledTextColor: Colors.black,
+        textColor: Colors.white,
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +183,7 @@ class LevelWidgetState extends State<LevelWidget> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   opacity: 1,
                   child: Text(widget.text),
                 ),
@@ -180,6 +201,8 @@ class LevelWidgetState extends State<LevelWidget> {
                           MaterialPageRoute(
                               builder: (context) => widget.nextLevel),
                         );
+                      } else {
+                        _displaySnackBar(context, 'Respuesta incorrecta');
                       }
                     },
                     decoration: InputDecoration(
