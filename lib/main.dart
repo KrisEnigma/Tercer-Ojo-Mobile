@@ -16,16 +16,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tercer Ojo Mobile - El Juego',
       theme: ThemeData(
-          textTheme: const TextTheme(
-            bodyText2: TextStyle(
-              fontSize: 20,
-            ),
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
           ),
-          colorScheme: const ColorScheme.dark(
-            primary: Colors.green,
-            onPrimary: Colors.white,
-          ),
-          scaffoldBackgroundColor: Colors.black),
+        ),
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.green,
+          onPrimary: Colors.white,
+        ),
+      ),
       home: const MainMenu(),
     );
   }

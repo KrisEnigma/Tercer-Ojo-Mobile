@@ -43,6 +43,7 @@ class LevelWidget extends StatefulWidget {
 
 class LevelWidgetState extends State<LevelWidget> {
   late TextEditingController _textController;
+  String? _textFieldError;
 
   @override
   void initState() {
@@ -54,35 +55,6 @@ class LevelWidgetState extends State<LevelWidget> {
   void dispose() {
     _textController.dispose();
     super.dispose();
-  }
-
-  String get _sourceCode {
-    return '''
-      Titulo: ${widget.title}
-      Imagen: ${widget.imageUrl}
-      Texto: ${widget.text}
-    ''';
-  }
-
-  void _displaySnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text(
-        message,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Colors.green,
-      action: SnackBarAction(
-        label: 'OK',
-        onPressed: () {
-          // Dismiss the SnackBar
-        },
-        disabledTextColor: Colors.black,
-        textColor: Colors.white,
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -139,47 +111,59 @@ class LevelWidgetState extends State<LevelWidget> {
               ),
               if (widget.levelType == "input")
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    controller: _textController,
-                    onSubmitted: (input) {
-                      if (input.trim() == widget.correctAnswer) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => widget.nextLevel),
-                        );
-                      } else {
-                        _displaySnackBar(context, 'Respuesta incorrecta');
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Escribe la respuesta',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: _textController,
+                      onChanged: (input) {
+                        setState(() {
+                          _textFieldError = null;
+                        });
+                      },
+                      onSubmitted: (input) {
+                        if (input.trim() == widget.correctAnswer) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => widget.nextLevel,
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            _textFieldError = 'Respuesta incorrecta';
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Escribe la respuesta',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        errorText: _textFieldError,
                       ),
-                    ),
-                  ),
-                ),
+                    )),
             ],
           ),
         ),
       ),
-      resizeToAvoidBottomInset: true,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Código Fuente'),
-                content: Text(_sourceCode),
-              );
-            },
-          );
-        },
-        child: const Icon(Icons.code),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              tooltip: 'Menú',
+              icon: const Icon(Icons.menu),
+              onPressed: () {},
+            ),
+            const Spacer(),
+            IconButton(
+              tooltip: 'Código fuente',
+              icon: const Icon(Icons.code),
+              onPressed: () {
+                
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
