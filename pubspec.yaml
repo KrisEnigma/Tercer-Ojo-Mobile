@@ -39,6 +39,7 @@ dependencies:
   transparent_image: ^2.0.0
   riverpod: ^2.1.3
   loading_gifs: ^0.3.0
+  freezed: ^2.3.2
 
 dev_dependencies:
   flutter_test:

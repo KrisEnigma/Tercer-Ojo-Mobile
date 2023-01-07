@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
 class LevelWidget extends StatefulWidget {
+  final int level;
   final String title;
   final String imageUrl;
   final String text;
@@ -12,14 +13,17 @@ class LevelWidget extends StatefulWidget {
   final double? squareBottom;
   final double? squareRight;
   final String? correctAnswer;
+  final Widget sourceCode;
 
   const LevelWidget.click({
     super.key,
+    required this.level,
     required this.title,
     required this.imageUrl,
     required this.text,
     this.levelType = 'click',
     required this.nextLevel,
+    required this.sourceCode,
     this.squareRight,
     this.squareBottom,
   })  : onInputChanged = null,
@@ -27,11 +31,13 @@ class LevelWidget extends StatefulWidget {
 
   const LevelWidget.input({
     super.key,
+    required this.level,
     required this.title,
     required this.imageUrl,
     required this.text,
     this.levelType = 'input',
     required this.nextLevel,
+    required this.sourceCode,
     required this.correctAnswer,
     this.onInputChanged,
   })  : squareBottom = null,
@@ -148,19 +154,18 @@ class LevelWidgetState extends State<LevelWidget> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Menú',
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
-            const Spacer(),
-            IconButton(
-              tooltip: 'Código fuente',
-              icon: const Icon(Icons.code),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
               onPressed: () {
-                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => widget.sourceCode,
+                  ),
+                );
               },
+              child: const Text('Level Info'),
             ),
           ],
         ),
