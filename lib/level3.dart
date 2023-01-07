@@ -15,7 +15,6 @@ class Nivel3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const LevelWidget.input(
       sourceCode: SourceCode(),
-      level: level,
       title: title,
       imageUrl: imageUrl,
       text: text,

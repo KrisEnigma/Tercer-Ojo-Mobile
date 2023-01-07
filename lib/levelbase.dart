@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
 class LevelWidget extends StatefulWidget {
-  final int level;
   final String title;
   final String imageUrl;
   final String text;
@@ -17,7 +16,6 @@ class LevelWidget extends StatefulWidget {
 
   const LevelWidget.click({
     super.key,
-    required this.level,
     required this.title,
     required this.imageUrl,
     required this.text,
@@ -31,7 +29,6 @@ class LevelWidget extends StatefulWidget {
 
   const LevelWidget.input({
     super.key,
-    required this.level,
     required this.title,
     required this.imageUrl,
     required this.text,

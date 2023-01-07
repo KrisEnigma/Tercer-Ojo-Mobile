@@ -14,7 +14,6 @@ class Nivel1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const LevelWidget.click(
       sourceCode: SourceCode(),
-      level: level,
       title: title,
       imageUrl: imageUrl,
       text: text,
@@ -36,13 +35,13 @@ class SourceCode extends StatelessWidget {
       appBar: AppBar(
         title: const Text('SourceCode'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(title),
-            Text(imageUrl),
-            Text(text),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            const Text(title),
+            Text(imageUrl.substring(imageUrl.lastIndexOf('/') + 1)),
+            const Text(text),
           ],
         ),
       ),
