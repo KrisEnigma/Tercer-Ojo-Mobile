@@ -54,7 +54,7 @@ $title
 // Nombre de la imagen
 
 imageUrl {
-${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)},
+${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}
 }
 
 // Texto del nivel

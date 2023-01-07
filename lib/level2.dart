@@ -35,13 +35,35 @@ class SourceCode extends StatelessWidget {
       appBar: AppBar(
         title: const Text('SourceCode'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(title),
-            Text(imageUrl),
-            Text(text),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            Text(
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 14,
+              ),
+              '''
+// Título del nivel
+
+title {
+$title
+}
+
+// Nombre de la imagen
+
+imageUrl {
+${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}
+}
+
+// Texto del nivel
+
+text {
+$text
+}
+''',
+            ),
           ],
         ),
       ),
