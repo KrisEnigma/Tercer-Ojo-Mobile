@@ -60,142 +60,161 @@ class LevelWidgetState extends State<LevelWidget> {
     super.dispose();
   }
 
-  DateTime preBackpress = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final timegap = DateTime.now().difference(preBackpress);
-        final cantExit = timegap >= const Duration(seconds: 2);
-        preBackpress = DateTime.now();
-        if (cantExit) {
-          //show snackbar
-          const snack = SnackBar(
-            content: Text('Presiona Atrás de nuevo para Salir'),
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snack);
-          return false;
-        } else {
-          return true;
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(widget.title),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            const UserAccountsDrawerHeader(
+              accountName: Text('Nombre de usuario'),
+              accountEmail: Text('correo@ejemplo.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text('U'),
+              ),
+            ),
+            ListTile(
+              title: const Text('Opción 1'),
+              onTap: () {
+                // Acción al presionar el botón
+              },
+            ),
+            ListTile(
+              title: const Text('Opción 2'),
+              onTap: () {
+                // Acción al presionar el botón
+              },
+            ),
+            ListTile(
+              title: const Text('Salir'),
+              onTap: () {
+                SystemNavigator.pop();
+              },
+            ),
+          ],
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Stack(
-                    children: [
-                      FadeInImage.assetNetwork(
-                        placeholder: circularProgressIndicatorSmall,
-                        image: widget.imageUrl,
-                      ),
-                      const SizedBox(height: 16),
-                      if (widget.levelType == 'click')
-                        Positioned(
-                          right: widget.squareRight,
-                          bottom: widget.squareBottom,
-                          child: GestureDetector(
-                            onTap: () {
-                              HapticFeedback.lightImpact();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => widget.nextLevel,
-                                ),
-                              );
-                            },
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 500),
-                    opacity: 1,
-                    child: Text(widget.text),
-                  ),
-                ),
-                if (widget.levelType == "input")
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: _textController,
-                        onChanged: (input) {
-                          setState(() {
-                            _textFieldError = null;
-                          });
-                        },
-                        onSubmitted: (input) {
-                          if (input.trim() == widget.correctAnswer) {
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Stack(
+                  children: [
+                    FadeInImage.assetNetwork(
+                      placeholder: circularProgressIndicatorSmall,
+                      image: widget.imageUrl,
+                    ),
+                    const SizedBox(height: 16),
+                    if (widget.levelType == 'click')
+                      Positioned(
+                        right: widget.squareRight,
+                        bottom: widget.squareBottom,
+                        child: GestureDetector(
+                          onTap: () {
+                            HapticFeedback.lightImpact();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => widget.nextLevel,
                               ),
                             );
-                          } else {
-                            setState(() {
-                              _textFieldError = 'Respuesta incorrecta';
-                            });
-                          }
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Escribe la respuesta',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.transparent,
                           ),
-                          errorText: _textFieldError,
                         ),
-                      )),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                tooltip: 'Menú',
-                icon: const Icon(Icons.menu),
-                onPressed: () {},
+                      ),
+                  ],
+                ),
               ),
-              const Spacer(),
-              IconButton(
-                tooltip: 'Código Fuente',
-                icon: const Icon(Icons.code),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => widget.sourceCode,
-                    ),
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 500),
+                  opacity: 1,
+                  child: Text(widget.text),
+                ),
               ),
-              IconButton(
-                tooltip: 'Opciones',
-                icon: const Icon(Icons.settings),
-                onPressed: () {},
-              ),
+              if (widget.levelType == "input")
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: _textController,
+                      onChanged: (input) {
+                        setState(() {
+                          _textFieldError = null;
+                        });
+                      },
+                      onSubmitted: (input) {
+                        if (input.trim() == widget.correctAnswer) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => widget.nextLevel,
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            _textFieldError = 'Respuesta incorrecta';
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Escribe la respuesta',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        errorText: _textFieldError,
+                      ),
+                    )),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  tooltip: 'Menú',
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              },
+            ),
+            const Spacer(),
+            IconButton(
+              tooltip: 'Código Fuente',
+              icon: const Icon(Icons.code),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => widget.sourceCode,
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              tooltip: 'Opciones',
+              icon: const Icon(Icons.settings),
+              onPressed: () {},
+            ),
+          ],
         ),
       ),
     );
