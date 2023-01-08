@@ -6,6 +6,7 @@ const int level = 1;
 const String title = "Bienvenido";
 const String imageUrl = "https://www.tercerojo.net/asdf/level1.jpg";
 const String text = "Sigue al conejo blanco.";
+String imageName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
 
 class Nivel1 extends StatelessWidget {
   const Nivel1({super.key});
@@ -33,7 +34,7 @@ class SourceCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SourceCode'),
+        title: const Text('Código Fuente'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -53,8 +54,8 @@ $title
 
 // Nombre de la imagen
 
-imageUrl {
-${imageUrl.substring(imageUrl.lastIndexOf('/') + 1)}
+imageFile {
+$imageName
 }
 
 // Texto del nivel

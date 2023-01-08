@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tercer_ojo_mobile/main.dart';
+import 'package:tercer_ojo_mobile/level1.dart';
 import 'package:tercer_ojo_mobile/levelbase.dart';
 
 const int level = 3;
@@ -19,7 +19,7 @@ class Nivel3 extends StatelessWidget {
       imageUrl: imageUrl,
       text: text,
       correctAnswer: correctAnswer,
-      nextLevel: MainMenu(),
+      nextLevel: Nivel1(),
     );
   }
 }
@@ -33,7 +33,7 @@ class SourceCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SourceCode'),
+        title: const Text('Código Fuente'),
       ),
       body: Center(
         child: Column(
