@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
         if (cantExit) {
           //show snackbar
           const snack = SnackBar(
-            content: Text('Presiona Atrás de nuevo pasa Salir'),
+            content: Text('Presiona Atrás de nuevo para Salir'),
             duration: Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).showSnackBar(snack);
