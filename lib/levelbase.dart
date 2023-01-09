@@ -142,7 +142,7 @@ class LevelWidgetState extends State<LevelWidget> {
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 500),
                   opacity: 1,
-                  child: Text(widget.text),
+                  child: SelectableText(widget.text),
                 ),
               ),
               if (widget.levelType == "input")

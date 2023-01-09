@@ -40,7 +40,7 @@ class SourceCode extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: <Widget>[
-            Text(
+            SelectableText(
               style: const TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 14,
