@@ -4,9 +4,9 @@ import 'package:tercer_ojo_mobile/levelbase.dart';
 
 const int level = 1;
 const String title = "Bienvenido";
-const String imageUrl = "https://www.tercerojo.net/asdf/level1.jpg";
+const String image = "images/level1.jpg";
 const String text = "Sigue al conejo blanco.";
-String imageName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+String imageName = image.substring(image.lastIndexOf('/') + 1);
 
 class Nivel1 extends StatelessWidget {
   const Nivel1({super.key});
@@ -16,7 +16,7 @@ class Nivel1 extends StatelessWidget {
     return const LevelWidget.click(
       sourceCode: SourceCode(),
       title: title,
-      imageUrl: imageUrl,
+      image: image,
       text: text,
       nextLevel: Nivel2(),
       squareBottom: 100,

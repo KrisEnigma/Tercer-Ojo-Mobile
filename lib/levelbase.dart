@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_gifs/loading_gifs.dart';
 
 class LevelWidget extends StatefulWidget {
   final String title;
-  final String imageUrl;
+  final String image;
   final String text;
   final String levelType;
   final Widget nextLevel;
@@ -17,7 +16,7 @@ class LevelWidget extends StatefulWidget {
   const LevelWidget.click({
     super.key,
     required this.title,
-    required this.imageUrl,
+    required this.image,
     required this.text,
     this.levelType = 'click',
     required this.nextLevel,
@@ -30,7 +29,7 @@ class LevelWidget extends StatefulWidget {
   const LevelWidget.input({
     super.key,
     required this.title,
-    required this.imageUrl,
+    required this.image,
     required this.text,
     this.levelType = 'input',
     required this.nextLevel,
@@ -60,191 +59,148 @@ class LevelWidgetState extends State<LevelWidget> {
     super.dispose();
   }
 
+  DateTime preBackpress = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(widget.title),
-        actions: [
-          PopupMenuButton(
-              // add icon, by default "3 dot" icon
-              icon: const Icon(Icons.settings),
-              itemBuilder: (context) {
-                return [
-                  const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("My Account"),
-                  ),
-                  const PopupMenuItem<int>(
-                    value: 1,
-                    child: Text("Settings"),
-                  ),
-                  const PopupMenuItem<int>(
-                    value: 2,
-                    child: Text("Logout"),
-                  ),
-                ];
-              },
-              onSelected: (value) {
-                if (value == 0) {
-                  print("My account menu is selected.");
-                } else if (value == 1) {
-                  print("Settings menu is selected.");
-                } else if (value == 2) {
-                  print("Logout menu is selected.");
-                }
-              }),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            const UserAccountsDrawerHeader(
-              accountName: Text('Nombre de usuario'),
-              accountEmail: Text('correo@ejemplo.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Text('U'),
-              ),
-            ),
-            ListTile(
-              title: const Text('Opción 1'),
-              onTap: () {
-                // Acción al presionar el botón
-              },
-            ),
-            ListTile(
-              title: const Text('Opción 2'),
-              onTap: () {
-                // Acción al presionar el botón
-              },
-            ),
-            ListTile(
-              title: const Text('Salir'),
-              onTap: () {
-                SystemNavigator.pop();
-              },
-            ),
+    return WillPopScope(
+      onWillPop: () async {
+        final timegap = DateTime.now().difference(preBackpress);
+        final cantExit = timegap >= const Duration(seconds: 2);
+        preBackpress = DateTime.now();
+        if (cantExit) {
+          //show snackbar
+          const snack = SnackBar(
+            content: Text('Presiona Atrás de nuevo para Salir'),
+            duration: Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(widget.title),
+          actions: [
+            PopupMenuButton(
+                // add icon, by default "3 dot" icon
+                icon: const Icon(Icons.settings),
+                itemBuilder: (context) {
+                  return [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text("Ver Código Fuente"),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 1,
+                      child: Text("Opciones"),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 2,
+                      child: Text("Salir"),
+                    ),
+                  ];
+                },
+                onSelected: (value) {
+                  if (value == 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => widget.sourceCode,
+                      ),
+                    );
+                  } else if (value == 1) {
+                    print("Settings");
+                  } else if (value == 2) {
+                    SystemNavigator.pop();
+                  }
+                }),
           ],
         ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Stack(
-                  children: [
-                    FadeInImage.assetNetwork(
-                      placeholder: circularProgressIndicatorSmall,
-                      image: widget.imageUrl,
-                    ),
-                    const SizedBox(height: 16),
-                    if (widget.levelType == 'click')
-                      Positioned(
-                        right: widget.squareRight,
-                        bottom: widget.squareBottom,
-                        child: GestureDetector(
-                          onTap: () {
-                            HapticFeedback.lightImpact();
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        widget.image,
+                      ),
+                      const SizedBox(height: 16),
+                      if (widget.levelType == 'click')
+                        Positioned(
+                          right: widget.squareRight,
+                          bottom: widget.squareBottom,
+                          child: GestureDetector(
+                            onTap: () {
+                              HapticFeedback.lightImpact();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => widget.nextLevel,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 500),
+                    opacity: 1,
+                    child: SelectableText(widget.text),
+                  ),
+                ),
+                if (widget.levelType == "input")
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        controller: _textController,
+                        onChanged: (input) {
+                          setState(() {
+                            _textFieldError = null;
+                          });
+                        },
+                        onSubmitted: (input) {
+                          if (input.trim() == widget.correctAnswer) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => widget.nextLevel,
                               ),
                             );
-                          },
-                          child: Container(
-                            width: 80,
-                            height: 80,
-                            color: Colors.transparent,
+                          } else {
+                            setState(() {
+                              _textFieldError = 'Respuesta incorrecta';
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Escribe la respuesta',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          errorText: _textFieldError,
                         ),
-                      ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 500),
-                  opacity: 1,
-                  child: SelectableText(widget.text),
-                ),
-              ),
-              if (widget.levelType == "input")
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      controller: _textController,
-                      onChanged: (input) {
-                        setState(() {
-                          _textFieldError = null;
-                        });
-                      },
-                      onSubmitted: (input) {
-                        if (input.trim() == widget.correctAnswer) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => widget.nextLevel,
-                            ),
-                          );
-                        } else {
-                          setState(() {
-                            _textFieldError = 'Respuesta incorrecta';
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Escribe la respuesta',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        errorText: _textFieldError,
-                      ),
-                    )),
-            ],
+                      )),
+              ],
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            Builder(
-              builder: (context) {
-                return IconButton(
-                  tooltip: 'Menú',
-                  icon: const Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              },
-            ),
-            const Spacer(),
-            IconButton(
-              tooltip: 'Código Fuente',
-              icon: const Icon(Icons.code),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => widget.sourceCode,
-                  ),
-                );
-              },
-            ),
-            IconButton(
-              tooltip: 'Opciones',
-              icon: const Icon(Icons.settings),
-              onPressed: () {},
-            ),
-          ],
         ),
       ),
     );
